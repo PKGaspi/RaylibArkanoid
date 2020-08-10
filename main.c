@@ -11,8 +11,8 @@ int main(void)
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Arkanoid");
 
-    struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 30);
-    struct ball *ball = ball_create(30, 30, 20, VIOLET);
+    struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 50);
+    struct ball *ball = ball_create(30, 30, 4, VIOLET);
     struct Vector2 bar_movement, ball_movement;
 
     ball_movement.x = 1;
@@ -62,6 +62,18 @@ int main(void)
         else if (ball -> pos -> y + ball -> radious >= SCREEN_HEIGHT) {
             ball -> pos -> y = SCREEN_HEIGHT - (ball -> pos -> y + ball -> radious - SCREEN_HEIGHT) - ball -> radious;
             ball -> dir -> y = -ball -> dir -> y;
+        }
+
+        // Check collision between bar and ball.
+        if (bar -> pos -> y >= ball -> pos -> y - ball -> radious &&
+            bar -> pos -> y <= ball -> pos -> y + ball -> radious &&
+            bar -> pos -> x - bar -> size / 2 <= ball -> pos -> x &&
+            bar -> pos -> x + bar -> size / 2 >= ball -> pos -> x) {
+
+            // TODO: Make the ball bounce in a different dir deppending on the x of the bar.
+            ball -> pos -> y = bar -> pos -> y - (ball -> pos -> y + ball -> radious - bar -> pos -> y) - ball -> radious;
+            ball -> dir -> y = -ball -> dir -> y;
+        
         }
 
         //----------------------------------------------------------------------------------
