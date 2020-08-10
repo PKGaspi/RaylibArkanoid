@@ -3,7 +3,7 @@
 #include "common.h"
 #include <stdlib.h>
 
-const float MOVEMENT_SPEED = 350; // Pixels per second.
+const float BAR_MOVEMENT_SPEED = 350; // Pixels per second.
 
 struct bar *bar_create(int x, int y, int size) {
 
@@ -28,8 +28,8 @@ void bar_move(struct bar *b, struct Vector2 *dir, float delta) {
   norm_dir -> y = dir -> y;
   vector2_normalize(norm_dir);
 
-  b -> pos -> x += norm_dir -> x * MOVEMENT_SPEED * delta;
-  b -> pos -> y += norm_dir -> y * MOVEMENT_SPEED * delta;
+  b -> pos -> x += norm_dir -> x * BAR_MOVEMENT_SPEED * delta;
+  b -> pos -> y += norm_dir -> y * BAR_MOVEMENT_SPEED * delta;
 
   free(norm_dir);
 
