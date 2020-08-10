@@ -5,10 +5,10 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int SCREEN_WIDTH = 800;
+    const int SCREEN_HEIGHT = 450;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [core] example - basic window");
 
     struct bar *bar = bar_create(100, 400, 30);
     struct Vector2 bar_movement, ball_movement;
@@ -28,6 +28,9 @@ int main(void)
         if (IsKeyDown(KEY_RIGHT)) bar_movement.x += 1;
 
         bar_move(bar, &bar_movement, GetFrameTime());
+
+        if (bar -> pos -> x - bar -> size / 2 < 0) bar -> pos -> x = bar -> size / 2; 
+        else if (bar -> pos -> x + bar -> size / 2 > SCREEN_WIDTH) bar -> pos -> x = SCREEN_WIDTH - bar -> size / 2; 
         //----------------------------------------------------------------------------------
 
 
