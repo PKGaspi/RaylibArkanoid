@@ -11,7 +11,7 @@ int main(void)
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Arkanoid");
 
-    struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 50);
+    struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 50, BLUE);
     struct ball *ball = ball_create(30, 30, 4, VIOLET);
     struct Vector2 bar_movement, ball_movement;
 
@@ -47,22 +47,26 @@ int main(void)
         ball_move(ball, delta);
 
         // Bounce on the edges of the screen.
+        // Left wall.
         if (ball -> pos -> x - ball -> radious <= 0) {
             ball -> pos -> x = -(ball -> pos -> x - ball -> radious) + ball -> radious;
             ball -> dir -> x = -ball -> dir -> x;
         }
+        // Right wall.
         else if (ball -> pos -> x + ball -> radious >= SCREEN_WIDTH) {
             ball -> pos -> x = SCREEN_WIDTH - (ball -> pos -> x + ball -> radious - SCREEN_WIDTH) - ball -> radious;
             ball -> dir -> x = -ball -> dir -> x;
         }
+        // Ceiling.
         if (ball -> pos -> y - ball -> radious <= 0) {
             ball -> pos -> y = -(ball -> pos -> y - ball -> radious) + ball -> radious;
             ball -> dir -> y = -ball -> dir -> y;
         }
-        else if (ball -> pos -> y + ball -> radious >= SCREEN_HEIGHT) {
-            ball -> pos -> y = SCREEN_HEIGHT - (ball -> pos -> y + ball -> radious - SCREEN_HEIGHT) - ball -> radious;
-            ball -> dir -> y = -ball -> dir -> y;
-        }
+        // Flor.
+        //else if (ball -> pos -> y + ball -> radious >= SCREEN_HEIGHT) {
+        //    ball -> pos -> y = SCREEN_HEIGHT - (ball -> pos -> y + ball -> radious - SCREEN_HEIGHT) - ball -> radious;
+        //    ball -> dir -> y = -ball -> dir -> y;
+        //}
 
         // Check collision between bar and ball.
         if (bar -> pos -> y >= ball -> pos -> y - ball -> radious &&
