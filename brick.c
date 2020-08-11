@@ -55,12 +55,12 @@ void brick_draw(struct brick *b) {
   DrawTriangle(v1, v5, v3, BRICK_COLOR_1[(int)max(b -> hardness, 0)]);
   DrawTriangle(v2, v4, v5, BRICK_COLOR_1[(int)max(b -> hardness, 0)]);
 
-  DrawLineV(v1, v2, BRICK_OUTLINE_COLOR);
-  DrawLineV(v1, v3, BRICK_OUTLINE_COLOR);
-  DrawLineV(v2, v4, BRICK_OUTLINE_COLOR);
-  DrawLineV(v3, v4, BRICK_OUTLINE_COLOR);
-  DrawLineV(v1, v4, BRICK_OUTLINE_COLOR);
-  DrawLineV(v2, v3, BRICK_OUTLINE_COLOR);
+  // DrawLineV(v1, v2, BRICK_OUTLINE_COLOR);
+  // DrawLineV(v1, v3, BRICK_OUTLINE_COLOR);
+  // DrawLineV(v2, v4, BRICK_OUTLINE_COLOR);
+  // DrawLineV(v3, v4, BRICK_OUTLINE_COLOR);
+  // DrawLineV(v1, v4, BRICK_OUTLINE_COLOR);
+  // DrawLineV(v2, v3, BRICK_OUTLINE_COLOR);
 
 }
 

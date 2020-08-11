@@ -3,8 +3,11 @@
 #include "ball.h"
 #include "brick.h"
 #include "common.h"
+#include <stdlib.h>
 
 #define BACKGROUND_COLOR (Color){255, 255, 204, 255}
+
+int ball_brick_collide(struct ball *ball, struct brick *brick);
 
 int main(void)
 {
@@ -24,7 +27,7 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Arkanoid");
 
     struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 50, 2, BLUE);
-    struct ball *ball = ball_create(30, 30, 4, DARKPURPLE);
+    struct ball *ball = ball_create(80, 80, 4, DARKPURPLE);
 
     // Init bricks.
     struct brick *bricks[N_BRICK_ROWS * N_BRICK_COLUMNS];
@@ -86,10 +89,10 @@ int main(void)
             ball -> dir -> y = -ball -> dir -> y;
         }
         // Flor.
-        //else if (ball -> pos -> y + ball -> radious >= SCREEN_HEIGHT) {
-        //    ball -> pos -> y = SCREEN_HEIGHT - (ball -> pos -> y + ball -> radious - SCREEN_HEIGHT) - ball -> radious;
-        //    ball -> dir -> y = -ball -> dir -> y;
-        //}
+        else if (ball -> pos -> y + ball -> radious >= SCREEN_HEIGHT) {
+            ball -> pos -> y = SCREEN_HEIGHT - (ball -> pos -> y + ball -> radious - SCREEN_HEIGHT) - ball -> radious;
+            ball -> dir -> y = -ball -> dir -> y;
+        }
 
         // Check collision between bar and ball.
         if (bar -> pos -> y >= ball -> pos -> y - ball -> radious &&
@@ -103,6 +106,18 @@ int main(void)
         
         }
 
+        // Check collision between ball and bricks.
+        for (i = 0; i < N_BRICK_ROWS * N_BRICK_COLUMNS; i++) {
+            if (bricks[i] && ball_brick_collide(ball, bricks[i])) {
+                brick_hit(bricks[i]);
+                if (bricks[i] -> hardness < 0) {
+                    brick_free(bricks[i]);
+                    bricks[i] = NULL;
+                }
+                break;
+            }
+        }   
+
         //----------------------------------------------------------------------------------
 
 
@@ -113,7 +128,7 @@ int main(void)
             ClearBackground(BACKGROUND_COLOR);
 
             for (i = 0; i < N_BRICK_ROWS * N_BRICK_COLUMNS; i++) {
-                brick_draw(bricks[i]);
+                if (bricks[i]) brick_draw(bricks[i]);
             }
             
             ball_draw(ball);
@@ -129,5 +144,53 @@ int main(void)
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
+    return 0;
+}
+
+int ball_brick_collide(struct ball *ball, struct brick *brick) {
+
+    if (ball -> pos -> x >= brick -> pos -> x - brick -> size -> x &&
+        ball -> pos -> x <= brick -> pos -> x + brick -> size -> x) {
+        // Top face.
+        if (ball -> pos -> y + ball -> radious >= brick -> pos -> y - brick -> size -> y &&
+            ball -> pos -> y + ball -> radious <= brick -> pos -> y) {
+
+            ball -> pos -> y = 2 * (brick -> pos -> y - brick -> size -> y) - ball -> pos -> y - ball -> radious * 2;
+            ball -> dir -> y = -ball -> dir -> y;
+            return 1;
+
+        }
+        // Bottom face.
+        else if (ball -> pos -> y - ball -> radious <= brick -> pos -> y + brick -> size -> y &&
+            ball -> pos -> y - ball -> radious >= brick -> pos -> y) {
+
+            ball -> pos -> y = 2 * (brick -> pos -> y + brick -> size -> y) - ball -> pos -> y + ball -> radious * 2;
+            ball -> dir -> y = -ball -> dir -> y;
+            return 1;
+
+        }
+    }
+
+    else if (ball -> pos -> y >= brick -> pos -> y - brick -> size -> y &&
+        ball -> pos -> y <= brick -> pos -> y + brick -> size -> y) {
+        // Left face.
+        if (ball -> pos -> x + ball -> radious >= brick -> pos -> x - brick -> size -> x &&
+            ball -> pos -> x + ball -> radious <= brick -> pos -> x) {
+
+            ball -> pos -> x = 2 * (brick -> pos -> x - brick -> size -> x) - ball -> pos -> x - ball -> radious * 2;
+            ball -> dir -> x = -ball -> dir -> x;
+            return 1;
+
+        }
+        // Right face.
+        else if (ball -> pos -> x - ball -> radious <= brick -> pos -> x + brick -> size -> x &&
+            ball -> pos -> x - ball -> radious >= brick -> pos -> x) {
+
+            ball -> pos -> x = 2 * (brick -> pos -> x + brick -> size -> x) - ball -> pos -> x + ball -> radious * 2;
+            ball -> dir -> x = -ball -> dir -> x;
+            return 1;
+
+        }
+    }
     return 0;
 }
