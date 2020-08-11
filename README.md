@@ -1,5 +1,5 @@
 # RaylibArkanoid
-This is just another average arkanoid clone made with [Raylib](www.raylib.com/).
+This is just another average arkanoid clone made with [Raylib](http://www.raylib.com/).
 
 ## Build and run
 
