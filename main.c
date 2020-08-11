@@ -94,7 +94,7 @@ int main(void)
 	  if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
 	    // Launch the ball.
 	    moveable_ball = 1;
-	    ball -> dir -> x = 1;
+	    ball -> dir -> x = GetRandomValue(-2, 2);
 	    ball -> dir -> y = -1;
 	  }
 	}
