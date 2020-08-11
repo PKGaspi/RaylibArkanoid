@@ -9,11 +9,14 @@ struct ball *ball_create(int x, int y, float radious, Color color) {
   struct ball *b = malloc(sizeof(struct ball));
   if (!b) return NULL;
 
-  struct Vector2 *v = malloc(sizeof(struct Vector2));
-  v -> x = x;
-  v -> y = y;
+  struct Vector2 *pos = malloc(sizeof(struct Vector2));
+  pos -> x = x;
+  pos -> y = y;
 
-  b -> pos = v;
+  struct Vector2 *dir = malloc(sizeof(struct Vector2));
+
+  b -> pos = pos;
+  b -> dir = dir;
   b -> radious = radious;
   b -> color = color;
 
