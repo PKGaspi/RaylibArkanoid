@@ -1,7 +1,8 @@
-#include "raylib.h"
+#include <raylib.h>
 #include "bar.h"
 #include "ball.h"
 #include "brick.h"
+#include "common.h"
 
 #define BACKGROUND_COLOR (Color){255, 255, 204, 255}
 
@@ -9,14 +10,32 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int SCREEN_WIDTH = 400;
-    const int SCREEN_HEIGHT = 250;
+    
+    const int N_BRICK_ROWS = 3;
+    const int N_BRICK_COLUMNS = 16;
+    const int BRICK_SEPARATION = 3;
+    const int BRICK_WIDTH = 30;
+    const int BRICK_HEIGHT = 10;
+    const int EXTRA_HEIGHT = 200;
+
+    const int SCREEN_WIDTH = N_BRICK_COLUMNS * (BRICK_WIDTH + BRICK_SEPARATION) + BRICK_SEPARATION;
+    const int SCREEN_HEIGHT = N_BRICK_ROWS * (BRICK_HEIGHT + BRICK_SEPARATION) + BRICK_SEPARATION + EXTRA_HEIGHT;
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Arkanoid");
 
     struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 50, 2, BLUE);
     struct ball *ball = ball_create(30, 30, 4, DARKPURPLE);
-    struct brick *brick = brick_create(10, 10, 100, 40, 2);
+
+    // Init bricks.
+    struct brick *bricks[N_BRICK_ROWS * N_BRICK_COLUMNS];
+    int i, j;
+    for (i = 0; i < N_BRICK_ROWS; i++) {
+        for (j = 0; j < N_BRICK_COLUMNS; j++) {
+            bricks[i + j * N_BRICK_ROWS] = brick_create(j * (BRICK_WIDTH + BRICK_SEPARATION) + BRICK_SEPARATION, i * (BRICK_HEIGHT + BRICK_SEPARATION) + BRICK_SEPARATION, BRICK_WIDTH, BRICK_HEIGHT, min(2, i));
+        }
+    }
+
+    //struct brick *brick = brick_create(1, 1, 30, 10, 2);
     struct Vector2 bar_movement, ball_movement;
 
     ball_movement.x = 1;
@@ -93,7 +112,10 @@ int main(void)
 
             ClearBackground(BACKGROUND_COLOR);
 
-            brick_draw(brick);
+            for (i = 0; i < N_BRICK_ROWS * N_BRICK_COLUMNS; i++) {
+                brick_draw(bricks[i]);
+            }
+            
             ball_draw(ball);
             bar_draw(bar);
             //DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);

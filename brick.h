@@ -1,4 +1,4 @@
-#import <raylib.h>
+#include <raylib.h>
 
 struct brick {
   struct Vector2 *pos;
