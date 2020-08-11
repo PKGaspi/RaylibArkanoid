@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "bar.h"
 #include "ball.h"
+#include "brick.h"
 
 #define BACKGROUND_COLOR (Color){255, 255, 204, 255}
 
@@ -15,6 +16,7 @@ int main(void)
 
     struct bar *bar = bar_create(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 30, 50, 2, BLUE);
     struct ball *ball = ball_create(30, 30, 4, DARKPURPLE);
+    struct brick *brick = brick_create(10, 10, 100, 40, 2);
     struct Vector2 bar_movement, ball_movement;
 
     ball_movement.x = 1;
@@ -91,6 +93,7 @@ int main(void)
 
             ClearBackground(BACKGROUND_COLOR);
 
+            brick_draw(brick);
             ball_draw(ball);
             bar_draw(bar);
             //DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
