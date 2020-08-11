@@ -232,10 +232,10 @@ int main(void)
 
 int ball_brick_collide(struct ball *ball, struct brick *brick) {
 
-  if (ball -> pos -> x >= brick -> pos -> x - brick -> size -> x &&
-      ball -> pos -> x <= brick -> pos -> x + brick -> size -> x) {
+  if (ball -> pos -> x >= brick -> pos -> x - brick -> size -> x / 2 &&
+      ball -> pos -> x <= brick -> pos -> x + brick -> size -> x / 2) {
     // Top face.
-    if (ball -> pos -> y + ball -> radious >= brick -> pos -> y - brick -> size -> y &&
+    if (ball -> pos -> y + ball -> radious >= brick -> pos -> y - brick -> size -> y / 2 &&
 	ball -> pos -> y + ball -> radious <= brick -> pos -> y) {
 
       ball -> pos -> y = 2 * (brick -> pos -> y - brick -> size -> y) - ball -> pos -> y - ball -> radious * 2;
@@ -254,22 +254,22 @@ int ball_brick_collide(struct ball *ball, struct brick *brick) {
     }
   }
 
-  else if (ball -> pos -> y >= brick -> pos -> y - brick -> size -> y &&
-	   ball -> pos -> y <= brick -> pos -> y + brick -> size -> y) {
+  else if (ball -> pos -> y >= brick -> pos -> y - brick -> size -> y / 2 &&
+	   ball -> pos -> y <= brick -> pos -> y + brick -> size -> y / 2) {
     // Left face.
-    if (ball -> pos -> x + ball -> radious >= brick -> pos -> x - brick -> size -> x &&
+    if (ball -> pos -> x + ball -> radious >= brick -> pos -> x - brick -> size -> x / 2 &&
         ball -> pos -> x + ball -> radious <= brick -> pos -> x) {
 
-      ball -> pos -> x = 2 * (brick -> pos -> x - brick -> size -> x) - ball -> pos -> x - ball -> radious * 2;
+      ball -> pos -> x = 2 * (brick -> pos -> x - brick -> size -> x / 2) - ball -> pos -> x - ball -> radious * 2;
       ball -> dir -> x = -ball -> dir -> x;
       return 1;
 
     }
     // Right face.
-    else if (ball -> pos -> x - ball -> radious <= brick -> pos -> x + brick -> size -> x &&
-	     ball -> pos -> x - ball -> radious >= brick -> pos -> x) {
+    else if (ball -> pos -> x - ball -> radious <= brick -> pos -> x + brick -> size -> x / 2 &&
+	     ball -> pos -> x - ball -> radious >= brick -> pos -> x / 2) {
 
-      ball -> pos -> x = 2 * (brick -> pos -> x + brick -> size -> x) - ball -> pos -> x + ball -> radious * 2;
+      ball -> pos -> x = 2 * (brick -> pos -> x + brick -> size -> x / 2) - ball -> pos -> x + ball -> radious * 2;
       ball -> dir -> x = -ball -> dir -> x;
       return 1;
 
