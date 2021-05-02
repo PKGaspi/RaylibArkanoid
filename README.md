@@ -7,7 +7,7 @@ This is just another average arkanoid clone made with [Raylib](http://www.raylib
 Using Make:
 
 ```
-git clone https://github.com/rapsaGnauJ/RaylibArkanoid.git
+git clone https://github.com/PKGaspi/RaylibArkanoid.git
 cd RaylibArkanoid
 make
 ```
